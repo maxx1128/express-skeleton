@@ -1,0 +1,13 @@
+
+// For applying specific CSS styles that scale between viewpoints
+@mixin between($property, $to, $from, $toWidth, $fromWidth) {
+  #{$property}: $to;
+
+  @media (min-width: $toWidth) {
+    #{$property}: between($to, $from, $toWidth, $fromWidth);
+  }
+
+  @media (min-width: $fromWidth) {
+    #{$property}: $from;
+  }
+}

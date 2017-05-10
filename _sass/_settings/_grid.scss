@@ -1,0 +1,30 @@
+// All variables related to the grid, including breakpoints
+
+// For pulling specific breakpoint width values out.
+// Not for adding breakpoint styles.
+@function breakpoint($width) {
+  @if map-has-key($breakpoint-map, $width) {
+    @return map-get($breakpoint-map, $width);
+  }
+}
+
+// Map for the breakpoints and max width
+$breakpoint-map: (
+  sm: rem(480px),
+  md: rem(787px),
+  lg: rem(1000px),
+  max-width: rem(1200px)
+);
+
+// Synapse configuration
+$synapse: (
+  columns: 12,
+  layouts: (
+    xs :  0,
+    sm :  breakpoint(sm),
+    md :  breakpoint(md),
+    lg :  breakpoint(lg)
+  ),
+
+  spaceUnits: (spacing(quart), spacing(half), spacing(), spacing(double), spacing(quad))
+);

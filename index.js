@@ -1,3 +1,5 @@
+// https://stackoverflow.com/questions/28048029/running-a-command-with-gulp-to-start-node-js-server
+
 var
   http       = require("http"),
   path       = require("path"),
@@ -14,9 +16,12 @@ var engine = liquid({
 
 var app = express();
 
+var assetsPath = path.resolve(__dirname, "assets");
+
 app.engine('liquid', engine.express()); 
 app.set('views', ['./views', './views/partials', './views/layouts']); 
 app.set('view engine', 'liquid');
+app.use("/assets", express.static(assetsPath));
 
 
 app.use(logger("dev"));

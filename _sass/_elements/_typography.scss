@@ -1,0 +1,27 @@
+// Make the list of base typography elements from the map...
+$type-elements: h1, h2, h3, h4, h5, h6, p, small, tiny;
+
+// ...and loop through them to establish their base styles!
+@each $element in $type-elements {
+
+  #{$element} {
+    @include between_font_sizes(type(font-size, #{$element}));
+    @include between_font_sizes(type(line-height, #{$element}), 'line-height');
+
+    margin: type(margin, #{$element});
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 { font-family: type(font-family, header); }
+
+a {
+  color: color(action);
+  text-decoration: none;
+
+  @include hovers() { color: color(action, dark); }
+}

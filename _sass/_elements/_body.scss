@@ -1,0 +1,12 @@
+html,
+body {
+  font-family: type(font-family);
+  color: color(mono, dark);
+}
+
+body {
+  min-height: 100vh;
+  padding: spacing();
+}
+
+* { box-sizing: border-box; }

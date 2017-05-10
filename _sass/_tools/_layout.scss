@@ -1,0 +1,23 @@
+// Mixins needed for controlling grid dimensions and responsive styles, as well as layout-related styles
+
+// Mixin to use with the breakpoint map, sets any styles to be used above a certain screen width
+@mixin larger-than($point-name) {
+  @if map-has-key($breakpoint-map, $point-name) {
+    $width: map-get($breakpoint-map, $point-name);
+  } @else {
+    $width: $point-name;
+  }
+
+  @media (min-width: $width) { @content; }
+}
+
+// Mixin to use with the breakpoint map, sets any styles to be used below a certain screen width. Try to use the larger-than mixin unless it can't be avoided.
+@mixin smaller-than($point-name) {
+  @if map-has-key($breakpoint-map, $point-name) {
+    $width: map-get($breakpoint-map, $point-name);
+  } @else {
+    $width: $point-name;
+  }
+
+  @media (max-width: $width) { @content; }
+}
