@@ -2,15 +2,17 @@ var gulp          = require('gulp');
 var p             = require('gulp-load-plugins')();
 var gutil         = require('gulp-util');
 
-var fs            = require('fs'),
-    del           = require('del'),
-    runSequence   = require('run-sequence'),
-    browserSync   = require('browser-sync'),
-    browserify    = require('browserify'),
-    watchify      = require('watchify'),
-    source        = require('vinyl-source-stream'),
-    buffer        = require('vinyl-buffer'),
-    scsslint      = require('gulp-scss-lint');
+var fs          = require('fs'),
+    del         = require('del'),
+    babelify    = require('babelify')
+    runSequence = require('run-sequence'),
+    browserSync = require('browser-sync'),
+    browserify  = require('browserify'),
+    source      = require('vinyl-source-stream'),
+    buffer      = require('vinyl-buffer'),
+    scsslint    = require('gulp-scss-lint'),
+    glob        = require('glob'),
+    es          = require('event-stream');
 
 // Important variables used throughout the gulp file //
 
@@ -56,37 +58,45 @@ gulp.task('browserSync', function() {
     browserSync(Settings)
 });
 
-// Browserify for creating javascript bundle
-var bundler = browserify({
-    // Required watchify args
-    cache: {},
-    packageCache: {},
-    fullPaths: true,
-    // Browserify options
-    entries: ['_javascript/main.js']
-  });
 
-var bundle = function() {
-  return bundler
-    .bundle()
-    .pipe(customPlumber('Error running Scripts'))
-    .on('error', errorLog)
-    .pipe(source('main.js'))
-    .pipe(buffer())
-    .pipe(p.uglify())
-    .pipe(gulp.dest('assets/js'))
-    .pipe(p.notify({ message: 'JS Uglified!', onLast: true }))
-}
 
-gulp.task('browserify', function() {
-  return bundle();
+gulp.task('browserify', function(done) {
+  glob('_javascript/main-**.js', function(err, files) {
+    if(err) done(err);
+
+    var tasks = files.map(function(entry) {
+      return browserify({
+          entries: [entry],
+          outputStyle: 'compressed'
+        })
+        .transform("babelify", {presets: ["es2015"]})
+        .bundle()
+        .pipe(source(entry))
+        .pipe(gulp.dest('assets/js'))
+        .pipe(browserSync.reload(bs_reload))
+      });
+    es.merge(tasks).on('end', done);
+  })
 });
 
-gulp.task('watch-js', function() {
-  var watchifyBundler = watchify(bundler);
-  watchifyBundler.on('update', bundle);
+gulp.task('browserify-cleanup', function() {
 
-  return bundle();
+  return gulp
+    .src('assets/js/_javascript/*.js')
+    .pipe(gulp.dest('assets/js'))
+});
+
+gulp.task('browserify-delete', function(cb) {
+  del(['assets/js/_javascript'], cb);
+});
+
+gulp.task('browserify-full', function(cb) {
+  runSequence(
+    ['browserify'],
+    ['browserify-cleanup'],
+    ['browserify-delete'],
+    cb
+  )
 });
 
 
@@ -131,6 +141,7 @@ gulp.task('scss-lint', function() {
 // Task to watch the things!
 gulp.task('watch', function(){
   gulp.watch('_sass/**/**/*.scss', ['sass']);
+  gulp.watch('_javascript/**/**/*.js', ['browserify']);
 });
 
 
@@ -158,8 +169,8 @@ gulp.task('server', function() {
 
 gulp.task('default', function(callback) {
   runSequence(
-    ['browserify', 'sass'],
-    ['watch-js', 'watch', 'server'],
+    ['browserify-full', 'sass'],
+    ['watch', 'server'],
     callback
   )
 });

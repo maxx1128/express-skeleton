@@ -1,4 +1,7 @@
-var $ = require('jquery')
+var
+  $ = require('jquery'),
+  f = require('./basic')
+;
 
 function containerized_component(patternId) {
   
@@ -7,7 +10,9 @@ function containerized_component(patternId) {
 
   
   // What to do when the page loads
-  function init() {}
+  function init() {
+    pattern.text('It\'s working like it should!');
+  }
 
   function setEvents() {}
 
@@ -23,16 +28,5 @@ function containerized_component(patternId) {
 }
 
 exports.activate = function(selector) {
-  $(selector).each(function(){
-
-    var id = $(this).attr('id');
-    
-    if ( typeof id === typeof undefined && id !== false ) {
-      
-      id = 'IDUNIQUE_' + Math.floor((Math.random() * 999999999999) + 1);
-      $(this).attr('id', id);
-    }
-    
-    containerized_component(id);
-  });
+  f.component_init(selector, containerized_component);
 }

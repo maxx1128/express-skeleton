@@ -1,4 +1,3 @@
-// https://stackoverflow.com/questions/28048029/running-a-command-with-gulp-to-start-node-js-server
 
 var
   http       = require("http"),
@@ -30,6 +29,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 app.get("/", function(request, response) {
+
   response.render("index", {
     title: "Express Skeleton"
   });
