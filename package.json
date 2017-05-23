@@ -2,9 +2,13 @@
   "name": "express-guestbook",
   "private": true,
   "scripts": {
-    "start": "node app"
+    "start": "gulp",
+    "babel-node": "babel-node"
   },
   "dependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.5.1",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "jquery": "^2.2.0",
@@ -18,6 +22,7 @@
     "babelify": "^7.3.0",
     "browser-sync": "^2.18.8",
     "browserify": "^13.0.0",
+    "child_process": "^1.0.2",
     "del": "^1.2.1",
     "event-stream": "^3.3.4",
     "glob": "^7.1.2",

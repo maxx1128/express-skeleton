@@ -5,7 +5,8 @@ var
   express    = require("express"),
   logger     = require("morgan"),
   liquid     = require("shopify-liquid"),
-  bodyParser = require("body-parser")
+  bodyParser = require("body-parser"),
+  routes     = require('./routes');
 ;
 
 var engine = liquid({
@@ -23,17 +24,11 @@ app.set('view engine', 'liquid');
 app.use("/assets", express.static(assetsPath));
 
 
-app.use(logger("dev"));
-
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(routes);
+// Put other middleware here!
 
-
-app.get("/", function(request, response) {
-
-  response.render("index", {
-    title: "Express Skeleton"
-  });
-});
+app.use(logger("dev"));
 
 app.use(function(request, response) {
   response.status(404).render("404");

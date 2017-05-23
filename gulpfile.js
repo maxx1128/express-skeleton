@@ -12,7 +12,9 @@ var fs          = require('fs'),
     buffer      = require('vinyl-buffer'),
     scsslint    = require('gulp-scss-lint'),
     glob        = require('glob'),
-    es          = require('event-stream');
+    es          = require('event-stream'),
+    exec        = require('child_process').exec
+;
 
 // Important variables used throughout the gulp file //
 
@@ -165,12 +167,24 @@ gulp.task('server', function() {
   });
 });
 
+function runCommand(command) {
+  return function (cb) {
+    exec(command, function (err, stdout, stderr) {
+      console.log(stdout);
+      console.log(stderr);
+      cb(err);
+    });
+  }
+}
+
+gulp.task('nodemon-babel', runCommand('nodemon --exec npm run babel-node -- index.js'));
+
 // Tasks that run multiple other tasks, including default //
 
 gulp.task('default', function(callback) {
   runSequence(
     ['browserify-full', 'sass'],
-    ['watch', 'server'],
+    ['watch', 'nodemon-babel'],
     callback
   )
 });
