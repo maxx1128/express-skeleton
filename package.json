@@ -1,5 +1,5 @@
 {
-  "name": "express-guestbook",
+  "name": "express-skeleton",
   "private": true,
   "scripts": {
     "start": "gulp",
