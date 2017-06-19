@@ -2,25 +2,19 @@
 var
   http       = require("http"),
   path       = require("path"),
+  ejs        = require("ejs"),
   express    = require("express"),
   logger     = require("morgan"),
-  liquid     = require("shopify-liquid"),
   bodyParser = require("body-parser"),
   routes     = require('./routes');
 ;
-
-var engine = liquid({
-    root: __dirname,  // for layouts and partials
-    extname: '.liquid'
-});
 
 var app = express();
 
 var assetsPath = path.resolve(__dirname, "assets");
 
-app.engine('liquid', engine.express()); 
-app.set('views', ['./views', './views/partials', './views/layouts']); 
-app.set('view engine', 'liquid');
+app.set('views', ['./views', './views/partials']); 
+app.set('view engine', 'ejs');
 app.use("/assets", express.static(assetsPath));
 
 

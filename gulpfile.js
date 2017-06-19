@@ -143,7 +143,7 @@ gulp.task('scss-lint', function() {
 // Task to watch the things!
 gulp.task('watch', function(){
   gulp.watch('_sass/**/**/*.scss', ['sass']);
-  gulp.watch('_javascript/**/**/*.js', ['browserify']);
+  gulp.watch('_javascript/**/**/*.js', ['browserify-full']);
 });
 
 
