@@ -1,9 +1,8 @@
 // Major dependencies
-var 
-  $         = require('jquery'),
-  f         = require('./functions/basic'),
-  component = require('./functions/component')
-;
+
+import $ from 'jquery';
+import f from './functions/basic';
+import component from './functions/component';
 
 component.activate('h1');
 

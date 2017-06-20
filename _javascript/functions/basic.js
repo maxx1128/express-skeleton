@@ -1,13 +1,11 @@
-var
-  $ = require('jquery')
-;
+import $ from 'jquery';
 
 exports.multiply = function(x, y) {
   return x * y;
 }
 
 exports.secrify = function(x, y) {
-  var code1 = 2.453,
+  let code1 = 2.453,
       code2 = 3.333,
       result = (x + (y * code1)) * code2,
       rounded = Math.round(result);
@@ -18,7 +16,7 @@ exports.secrify = function(x, y) {
 exports.component_init = function(selector, component_function) {
   $(selector).each(function(){
 
-    var id = $(this).attr('id');
+    let id = $(this).attr('id');
     
     if ( typeof id === typeof undefined && id !== false ) {
       

@@ -3,7 +3,11 @@
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var $ = require('jquery');
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.multiply = function (x, y) {
   return x * y;
@@ -19,14 +23,14 @@ exports.secrify = function (x, y) {
 };
 
 exports.component_init = function (selector, component_function) {
-  $(selector).each(function () {
+  (0, _jquery2.default)(selector).each(function () {
 
-    var id = $(this).attr('id');
+    var id = (0, _jquery2.default)(this).attr('id');
 
     if ((typeof id === 'undefined' ? 'undefined' : _typeof(id)) === (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && id !== false) {
 
       id = 'IDUNIQUE_' + Math.floor(Math.random() * 99999999999999999 + 1);;
-      $(this).attr('id', id);
+      (0, _jquery2.default)(this).attr('id', id);
     }
 
     component_function(id);
@@ -36,13 +40,20 @@ exports.component_init = function (selector, component_function) {
 },{"jquery":4}],2:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
-    f = require('./basic');
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _basic = require('./basic');
+
+var _basic2 = _interopRequireDefault(_basic);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function containerized_component(patternId) {
 
   // variables
-  var pattern = $("#" + patternId);
+  var pattern = (0, _jquery2.default)("#" + patternId);
 
   // What to do when the page loads
   function init() {
@@ -57,27 +68,36 @@ function containerized_component(patternId) {
     setEvents();
   }
 
-  $(document).on({
+  (0, _jquery2.default)(document).on({
     ready: docReady()
   });
 }
 
 exports.activate = function (selector) {
-  f.component_init(selector, containerized_component);
+  _basic2.default.component_init(selector, containerized_component);
 };
 
 },{"./basic":1,"jquery":4}],3:[function(require,module,exports){
 'use strict';
 
-// Major dependencies
-var $ = require('jquery'),
-    f = require('./functions/basic'),
-    component = require('./functions/component');
+var _jquery = require('jquery');
 
-component.activate('h1');
+var _jquery2 = _interopRequireDefault(_jquery);
 
-console.log('Multiply 5 and 7, you get ' + f.multiply(5, 7));
-console.log('Secrify 5 and 7, you get ' + f.secrify(5, 7));
+var _basic = require('./functions/basic');
+
+var _basic2 = _interopRequireDefault(_basic);
+
+var _component = require('./functions/component');
+
+var _component2 = _interopRequireDefault(_component);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_component2.default.activate('h1'); // Major dependencies
+
+console.log('Multiply 5 and 7, you get ' + _basic2.default.multiply(5, 7));
+console.log('Secrify 5 and 7, you get ' + _basic2.default.secrify(5, 7));
 
 },{"./functions/basic":1,"./functions/component":2,"jquery":4}],4:[function(require,module,exports){
 /*!

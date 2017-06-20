@@ -1,12 +1,10 @@
-var
-  $ = require('jquery'),
-  f = require('./basic')
-;
+import $ from 'jquery';
+import f from './basic';
 
 function containerized_component(patternId) {
   
   // variables
-  var pattern = $("#" + patternId);
+  let pattern = $("#" + patternId);
 
   
   // What to do when the page loads
