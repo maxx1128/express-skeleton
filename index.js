@@ -32,3 +32,4 @@ http.createServer(app).listen(3000, function(){
   console.log('App skeleton started on port 3000.');
 });
 
+module.exports = app;
